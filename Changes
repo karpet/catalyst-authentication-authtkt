@@ -1,0 +1,5 @@
+Revision history for Catalyst-Authentication-AuthTkt
+
+0.01    xxx
+        * Renamed from Catalyst::Plugin::Authentication::AuthTkt
+        * updates to support Apache::AuthTkt 0.08 API changes

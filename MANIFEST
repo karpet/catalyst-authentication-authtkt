@@ -1,0 +1,13 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+lib/Catalyst/Authentication/AuthTkt.pm
+lib/Catalyst/Authentication/Credential/AuthTkt.pm
+lib/Catalyst/Authentication/Store/AuthTkt.pm
+lib/Catalyst/Authentication/Realm/AuthTkt.pm
+lib/Catalyst/Authentication/User/AuthTkt.pm
+t/00-load.t
+t/boilerplate.t
+t/pod-coverage.t
+t/pod.t
