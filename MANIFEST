@@ -13,5 +13,6 @@ t/MyApp/lib/MyApp.pm
 t/MyApp/lib/MyApp/Controller/Root.pm
 t/MyApp/myapp.conf
 t/MyApp/script/myapp_server.pl
+t/MyApp/Makefile.PL
 t/pod-coverage.t
 t/pod.t
