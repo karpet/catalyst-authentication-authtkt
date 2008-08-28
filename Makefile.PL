@@ -10,9 +10,11 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
-        'Catalyst::Runtime' => 0,
+        'Catalyst' => 5.7014,
         'Apache::AuthTkt'   => 0.08,
-        'Catalyst::Plugin::Authentication' => 0.11000,
+        'Catalyst::Plugin::Authentication' => 0.10007,
+        'Data::Dump' => 0,   # for testing
+        'Config::General' => 0, # for testing
 
 
     },

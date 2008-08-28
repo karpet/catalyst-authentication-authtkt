@@ -8,6 +8,5 @@ lib/Catalyst/Authentication/Store/AuthTkt.pm
 lib/Catalyst/Authentication/Realm/AuthTkt.pm
 lib/Catalyst/Authentication/User/AuthTkt.pm
 t/00-load.t
-t/boilerplate.t
 t/pod-coverage.t
 t/pod.t

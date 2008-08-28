@@ -63,7 +63,7 @@ sub new {
     }
 
     $self->config($config);    # cache for later
-    $self->debug( $config->{debug} || 0 );
+    $self->debug( $config->{debug} || $ENV{PERL_DEBUG} || 0 );
 
     return $self;
 }
@@ -98,21 +98,25 @@ sub find_user {
     my $t = ref($cookie) ? $cookie->value : $cookie;
     $c->log->debug("AuthTkt: $t") if $self->debug;
 
-    # running under fcgi (others?) the REMOTE_ADDR env var is not set, which Apache::AuthTkt
-    # uses to check the validity of tickets if the ip_addr is not set explicitly in the AA object. 
-    # So we set it explicitly here.
-    # if the 'ignore_ip' config option were used consistently (i.e. both setting and checking)
-    # then this hack would not be necessary, but we can't vouch for how the ticket was set.
-    if (!exists $ENV{REMOTE_ADDR} or $self->config->{use_req_address}) {
-        $c->log->debug("setting REMOTE_ADDR to " . $c->req->address) if $self->debug;
-        $self->aat->{ip_addr} = $self->config->{use_req_address} || $c->req->address;
+# running under fcgi (others?) the REMOTE_ADDR env var is not set, which Apache::AuthTkt
+# uses to check the validity of tickets if the ip_addr is not set explicitly in the AA object.
+# So we set it explicitly here.
+# if the 'ignore_ip' config option were used consistently (i.e. both setting and checking)
+# then this hack would not be necessary, but we can't vouch for how the ticket was set.
+    if ( !exists $ENV{REMOTE_ADDR} or $self->config->{use_req_address} ) {
+        $c->log->debug( "setting REMOTE_ADDR to " . $c->req->address )
+            if $self->debug;
+        $self->aat->{ip_addr} = $self->config->{use_req_address}
+            || $c->req->address;
     }
 
     my $ticket = $self->aat->validate_ticket($t);
 
     unless ( defined $ticket ) {
         $c->log->debug("AuthTkt: bad ticket detected") if $self->debug;
-        $c->log->debug("AuthTkt: parsed ticket looks like: " . dump($self->aat->parse_ticket($t))) if $self->debug;
+        $c->log->debug( "AuthTkt: parsed ticket looks like: "
+                . dump( $self->aat->parse_ticket($t) ) )
+            if $self->debug;
         return;
     }
 
