@@ -4,16 +4,16 @@ use warnings;
 use strict;
 use base qw( Class::Accessor::Fast );
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
-Catalyst::Plugin::Authentication::AuthTkt - shim for Apache::AuthTkt
+Catalyst::Authentication::Credential::AuthTkt - shim for Apache::AuthTkt
 
 =head1 DESCRIPTION
 
 This module implements the Catalyst::Plugin::Authentication API for Apache::AuthTkt.
-See Catalyst::Plugin::Authentication::AuthTkt for complete user documentation.
+See Catalyst::Authentication::AuthTkt for complete user documentation.
 
 =head1 METHODS
 

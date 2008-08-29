@@ -8,4 +8,6 @@ Revision history for Catalyst-Authentication-AuthTkt
         * add Static::Simple plugin to Makefile.PL reqs (not that
           it is actually used yet...)
 
+0.05    29 Aug 2008
+        * fix POD for search.cpan.org display
 

@@ -4,7 +4,7 @@ use warnings;
 use base qw( Catalyst::Authentication::Realm );
 use Carp;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 NAME
 
@@ -12,7 +12,7 @@ Catalyst::Authentication::Realm::AuthTkt - shim for Apache::AuthTkt
 
 =head1 DESCRIPTION
 
-This module implements the Catalyst::Authentication API for Apache::AuthTkt.
+This module implements the Catalyst::Plugin::Authentication API for Apache::AuthTkt.
 See Catalyst::Authentication::AuthTkt for complete user documentation.
 
 =head1 METHODS
