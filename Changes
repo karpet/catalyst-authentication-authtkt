@@ -3,3 +3,9 @@ Revision history for Catalyst-Authentication-AuthTkt
 0.03    28 Aug 2008
         * Renamed from Catalyst::Plugin::Authentication::AuthTkt
         * updates to support Apache::AuthTkt 0.08 API changes
+
+0.04    29 Aug 2008
+        * add Static::Simple plugin to Makefile.PL reqs (not that
+          it is actually used yet...)
+
+

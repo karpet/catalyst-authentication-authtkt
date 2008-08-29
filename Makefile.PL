@@ -15,6 +15,7 @@ WriteMakefile(
         'Catalyst::Plugin::Authentication' => 0.10007,
         'Data::Dump' => 0,   # for testing
         'Config::General' => 0, # for testing
+        'Catalyst::Plugin::Static::Simple' => 0, # for testing
 
 
     },
