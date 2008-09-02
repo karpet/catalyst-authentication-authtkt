@@ -16,6 +16,7 @@ WriteMakefile(
         'Data::Dump' => 0,   # for testing
         'Config::General' => 0, # for testing
         'Catalyst::Plugin::Static::Simple' => 0, # for testing
+        'Catalyst::Plugin::ConfigLoader'   => 0, # for testing
 
 
     },
