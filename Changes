@@ -11,7 +11,7 @@ Revision history for Catalyst-Authentication-AuthTkt
 0.05    29 Aug 2008
         * fix POD for search.cpan.org display
 
-0.06    xxx
+0.06    2 Sept 2008
         * add missing req to Makefile.PL
 
 
