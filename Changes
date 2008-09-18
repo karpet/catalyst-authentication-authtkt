@@ -14,4 +14,6 @@ Revision history for Catalyst-Authentication-AuthTkt
 0.06    2 Sept 2008
         * add missing req to Makefile.PL
 
+0.07    xxx
+        * add 'mock' feature for running in development.
 

@@ -10,7 +10,7 @@ use Catalyst::Authentication::User::AuthTkt;
 
 __PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -77,12 +77,33 @@ find_user() checks the I<context> request object for a cookie named cookie_name(
 or a param named cookie_name(), in that order. If neither are present, or if
 present but invalid, find_user() returns undef.
 
+See also the 'mock' feature as per the
+example in Catalyst::Authentication::AuthTkt SYNOPSIS.
+
 =cut
 
 sub find_user {
     my ( $self, $userinfo, $c ) = @_;
 
     $c->log->debug('AuthTkt: authenticating request') if $self->debug;
+
+    # mock feature for development when you just want to mimic cookie
+    # (e.g., when running under localhost or different domain than
+    # your auth server)
+    if ( $self->config->{mock} ) {
+        my %user = %{ $self->config->{mock} };
+
+        $c->log->debug("AuthTkt: using mock user $user{id}") if $self->debug;
+
+        return Catalyst::Authentication::User::AuthTkt->new(
+            {   id     => $user{id},
+                data   => '',
+                ts     => '',
+                tokens => $user{tokens},
+                ticket => 'mock_auth_cookie',
+            }
+        );
+    }
 
     # if no cookie or param, return undef
     my $cookie = $c->req->cookie( $self->cookie_name )

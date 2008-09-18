@@ -3,7 +3,7 @@ package Catalyst::Authentication::AuthTkt;
 use warnings;
 use strict;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 =head1 NAME
 
@@ -44,6 +44,15 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
                 # explicitly define a domain for the cookie
                 # NOTE the leading dot means every host in the subdomain
                 domain .foo.bar.com
+                
+                # mock a user -- this effectively turns off
+                # the auth system. *** for development only ***
+                <mock>
+                    id joeuser
+                    tokens foo
+                    tokens bar
+                </mock>
+                    
 
             </store>
         </authtkt>
