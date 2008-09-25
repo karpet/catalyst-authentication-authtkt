@@ -125,7 +125,6 @@ sub find_user {
 # if the 'ignore_ip' config option were used consistently (i.e. both setting and checking)
 # then this hack would not be necessary, but we can't vouch for how the ticket was set.
     if ( !exists $ENV{REMOTE_ADDR} or $self->config->{use_req_address} ) {
-        $c->log->debug('x-forwarded-for: ' . ($ENV{HTTP_X_FORWARDED_FOR}||'')) if $self->debug;
         my $ipaddr = $self->config->{use_req_address} || $c->req->address;
         $c->log->debug( "setting REMOTE_ADDR to $ipaddr" )
             if $self->debug;
