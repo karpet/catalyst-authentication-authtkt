@@ -36,11 +36,19 @@ sub new {
     my ( $class, $config, $app ) = @_;
     my $self = $class->SUPER::new(
         { cookie_name => $config->{cookie_name} || 'auth_tkt' } );
+    my @aat_args = ();
+    for my $param (qw( cookie_name domain timeout timeout_refresh )) {
+        if ( exists $config->{$param} ) {
+            push( @aat_args, $param => $config->{$param} );
+        }
+    }
     if ( $config->{conf} ) {
-        $self->{aat} = Apache::AuthTkt->new( conf => $config->{conf} );
+        $self->{aat}
+            = Apache::AuthTkt->new( conf => $config->{conf}, @aat_args );
     }
     elsif ( $config->{secret} ) {
-        $self->{aat} = Apache::AuthTkt->new( secret => $config->{secret} );
+        $self->{aat}
+            = Apache::AuthTkt->new( secret => $config->{secret}, @aat_args );
     }
     else {
         croak "conf or secret configuration required";
@@ -126,7 +134,7 @@ sub find_user {
 # then this hack would not be necessary, but we can't vouch for how the ticket was set.
     if ( !exists $ENV{REMOTE_ADDR} or $self->config->{use_req_address} ) {
         my $ipaddr = $self->config->{use_req_address} || $c->req->address;
-        $c->log->debug( "setting REMOTE_ADDR to $ipaddr" )
+        $c->log->debug("setting REMOTE_ADDR to $ipaddr")
             if $self->debug;
         $self->aat->{ip_addr} = $ipaddr;
     }
@@ -236,7 +244,7 @@ sub renew_ticket {
             : '/',
             domain => defined $existing_cookie->domain
             ? $existing_cookie->domain
-            : ( $self->config->{domain} || $c->req->host ),
+            : ( $authtkt->domain || $c->req->host ),
         };
         $c->log->debug( 'AuthTkt: new cookie: '
                 . dump( $c->response->cookies->{ $self->cookie_name } ) )
@@ -261,8 +269,8 @@ sub expire_ticket {
     my $existing_cookie = $c->req->cookie($cookie_name);
     $existing_cookie->value( [] );
     $existing_cookie->expires( time - 100 );
-    $existing_cookie->domain( $self->config->{domain} )
-        if $self->config->{domain};
+    $existing_cookie->domain( $self->aat->domain )
+        if $self->aat->domain;
     $c->res->cookies->{$cookie_name} = $existing_cookie;
     $c->log->debug( "AuthTkt: cookie reset as " . dump($existing_cookie) )
         if $self->debug;
