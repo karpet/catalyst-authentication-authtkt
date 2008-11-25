@@ -267,6 +267,10 @@ sub expire_ticket {
     my ( $self, $c ) = @_;
     my $cookie_name     = $self->cookie_name;
     my $existing_cookie = $c->req->cookie($cookie_name);
+    if (!$existing_cookie) {
+        $c->log->warn("no cookie with name $cookie_name found to expire");
+        return;
+    }
     $existing_cookie->value( [] );
     $existing_cookie->expires( time - 100 );
     $existing_cookie->domain( $self->aat->domain )

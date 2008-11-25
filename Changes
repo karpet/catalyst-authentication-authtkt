@@ -18,3 +18,6 @@ Revision history for Catalyst-Authentication-AuthTkt
         * add 'mock' feature for running in development.
         * pass all relevant config args to Apache::AuthTkt->new 
 
+0.08    xxx
+        * fix bug in Store->expire_ticket() where cookie not found
+
