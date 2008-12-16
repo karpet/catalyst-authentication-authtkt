@@ -10,7 +10,7 @@ use Catalyst::Authentication::User::AuthTkt;
 
 __PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 
 =head1 NAME
 
