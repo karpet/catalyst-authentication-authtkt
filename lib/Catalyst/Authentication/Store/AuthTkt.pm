@@ -10,7 +10,7 @@ use Catalyst::Authentication::User::AuthTkt;
 
 __PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
@@ -132,7 +132,10 @@ sub find_user {
 # So we set it explicitly here.
 # if the 'ignore_ip' config option were used consistently (i.e. both setting and checking)
 # then this hack would not be necessary, but we can't vouch for how the ticket was set.
-    if ( !exists $ENV{REMOTE_ADDR} or $self->config->{use_req_address} ) {
+    if (   !exists $ENV{REMOTE_ADDR}
+        or $self->config->{use_req_address}
+        or $ENV{REMOTE_ADDR} ne $c->req->address )
+    {
         my $ipaddr = $self->config->{use_req_address} || $c->req->address;
         $c->log->debug("setting REMOTE_ADDR to $ipaddr")
             if $self->debug;
@@ -267,7 +270,7 @@ sub expire_ticket {
     my ( $self, $c ) = @_;
     my $cookie_name     = $self->cookie_name;
     my $existing_cookie = $c->req->cookie($cookie_name);
-    if (!$existing_cookie) {
+    if ( !$existing_cookie ) {
         $c->log->warn("no cookie with name $cookie_name found to expire");
         return;
     }

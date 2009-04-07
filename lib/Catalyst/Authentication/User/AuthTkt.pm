@@ -5,7 +5,7 @@ use strict;
 use base qw( Catalyst::Authentication::User );
 __PACKAGE__->mk_accessors(qw( data ticket ));
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 =head1 NAME
 
