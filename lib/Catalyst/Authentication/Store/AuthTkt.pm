@@ -125,6 +125,11 @@ sub find_user {
 
     # unpack cookie
     my $t = ref($cookie) ? $cookie->value : $cookie;
+    if ( !defined $t or !length $t ) {
+        $c->log->debug("AuthTkt: no ticket value in cookie " . $self->cookie_name)
+            if $self->debug;
+        return;
+    }
     $c->log->debug("AuthTkt: $t") if $self->debug;
 
 # running under fcgi (others?) the REMOTE_ADDR env var is not set, which Apache::AuthTkt
