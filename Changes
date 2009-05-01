@@ -21,7 +21,7 @@ Revision history for Catalyst-Authentication-AuthTkt
 0.08    16 Dec 2008
         * fix bug in Store->expire_ticket() where cookie not found
 
-0.09    xxx
+0.09    30 April 2009
         * set REMOTE_ADDR to $c->req->address if $c->req->address != REMOTE_ADDR.
           This fixes bug when running dev server behind proxy (similar to fcgi).
         * add patch from https://rt.cpan.org/Ticket/Display.html?id=43482
