@@ -27,3 +27,7 @@ Revision history for Catalyst-Authentication-AuthTkt
         * add patch from https://rt.cpan.org/Ticket/Display.html?id=43482
           to check that authtkt cookie has a value.
 
+0.10    7 May 2009
+        * explicit $c->logout anytime AuthTkt parsing fails, since if Session plugin
+          is being used, the $c->user object is cached in session.
+

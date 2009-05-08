@@ -17,6 +17,10 @@ WriteMakefile(
         'Config::General' => 0, # for testing
         'Catalyst::Plugin::Static::Simple' => 0, # for testing
         'Catalyst::Plugin::ConfigLoader'   => 0, # for testing
+        'Catalyst::Plugin::Session'        => 0,
+        'Catalyst::Plugin::Session::Store::Dummy' => 0,
+        'Catalyst::Plugin::Session::State::Cookie' => 0,
+        'HTTP::Request::AsCGI' => 0,
 
 
     },

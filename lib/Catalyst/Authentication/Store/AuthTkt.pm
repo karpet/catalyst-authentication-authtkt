@@ -10,7 +10,7 @@ use Catalyst::Authentication::User::AuthTkt;
 
 __PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 =head1 NAME
 
@@ -120,14 +120,17 @@ sub find_user {
         $c->log->debug(
             "AuthTkt: No cookie or param for " . $self->cookie_name )
             if $self->debug;
+        $c->logout;    # in case user was in session
         return;
     }
 
     # unpack cookie
     my $t = ref($cookie) ? $cookie->value : $cookie;
     if ( !defined $t or !length $t ) {
-        $c->log->debug("AuthTkt: no ticket value in cookie " . $self->cookie_name)
+        $c->log->debug(
+            "AuthTkt: no ticket value in cookie " . $self->cookie_name )
             if $self->debug;
+        $c->logout;    # in case user was in session
         return;
     }
     $c->log->debug("AuthTkt: $t") if $self->debug;
@@ -154,11 +157,12 @@ sub find_user {
         $c->log->debug( "AuthTkt: parsed ticket looks like: "
                 . dump( $self->aat->parse_ticket($t) ) )
             if $self->debug;
+        $c->logout;    # in case user was in session
         return;
     }
 
     if ( $self->ticket_expired( $c, $ticket ) ) {
-        $c->logout;
+        $c->logout;    # in case user was in session
         return;
     }
 
