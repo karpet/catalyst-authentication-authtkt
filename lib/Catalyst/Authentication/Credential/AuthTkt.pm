@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use base qw( Class::Accessor::Fast );
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 =head1 NAME
 

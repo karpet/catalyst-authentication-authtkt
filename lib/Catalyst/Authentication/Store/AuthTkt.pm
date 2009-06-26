@@ -10,7 +10,7 @@ use Catalyst::Authentication::User::AuthTkt;
 
 __PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 =head1 NAME
 
@@ -256,7 +256,7 @@ sub renew_ticket {
             : '/',
             domain => defined $existing_cookie->domain
             ? $existing_cookie->domain
-            : ( $authtkt->domain || $c->req->host ),
+            : $authtkt->domain
         };
         $c->log->debug( 'AuthTkt: new cookie: '
                 . dump( $c->response->cookies->{ $self->cookie_name } ) )

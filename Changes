@@ -31,3 +31,8 @@ Revision history for Catalyst-Authentication-AuthTkt
         * explicit $c->logout anytime AuthTkt parsing fails, since if Session plugin
           is being used, the $c->user object is cached in session.
 
+0.11    25 June 2009
+        * fix bug when cookie domain not configured. Defaults now to undef, which should
+          result in no domain (which the browser should interpret as the responding fqdn).
+          Patch from Jose Luís Martínez.
+
