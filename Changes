@@ -36,3 +36,5 @@ Revision history for Catalyst-Authentication-AuthTkt
           result in no domain (which the browser should interpret as the responding fqdn).
           Patch from Jose Luís Martínez.
 
+0.11_01 03 May 2011
+        * dev release with extra debugging to try and track down cpantesters failures.
