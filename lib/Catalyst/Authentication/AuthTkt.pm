@@ -3,7 +3,7 @@ package Catalyst::Authentication::AuthTkt;
 use warnings;
 use strict;
 
-our $VERSION = '0.11_01';
+our $VERSION = '0.12';
 
 =head1 NAME
 
@@ -17,9 +17,8 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
  );
 
  # Configure an authentication realm in your app config:
- <authentication>
+ <Plugin::Authentication>
     default_realm authtkt
-    auth_url http://yourdomain/login
     <realms>
         <authtkt>
             class AuthTkt
@@ -57,10 +56,18 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
             </store>
         </authtkt>
     </realms>
- </authentication>
-                    
+ </Plugin::Authentication>
+ <Controller::Root>
+    auth_url http://yourdomain/login
+ </Controller::Root>
 
- # and then in your Root controller 'auto':
+ # and then in your Root controller:
+
+ has auth_url => (
+    is => 'ro',
+    required => 1,
+ );
+
  sub auto : Private {
      my ( $self, $c ) = @_;
              
@@ -68,7 +75,7 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
      return 1 if $c->authenticate;
         
      # no valid login found so redirect.
-     $c->response->redirect( $c->config->{authentication_url} );
+     $c->response->redirect( $self->auth_url} );
         
      # tell Catalyst to abort processing.
      return 0;

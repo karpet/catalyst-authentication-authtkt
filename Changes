@@ -38,3 +38,7 @@ Revision history for Catalyst-Authentication-AuthTkt
 
 0.11_01 03 May 2011
         * dev release with extra debugging to try and track down cpantesters failures.
+
+0.12    11 Jan 2012
+        * patches from t0m via https://rt.cpan.org/Public/Bug/Display.html?id=73786
+          to fix for Catalyst 5.9

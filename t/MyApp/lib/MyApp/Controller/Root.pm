@@ -1,11 +1,18 @@
 package MyApp::Controller::Root;
+use Moose;
 
-use strict;
-use warnings;
-use base 'Catalyst::Controller';
-use Data::Dump qw( dump );
+BEGIN { extends 'Catalyst::Controller' }
 
 __PACKAGE__->config( namespace => '' );
+
+has auth_url => (
+    is       => 'ro',
+    required => 1,
+);
+
+no Moose;
+
+use Data::Dump qw( dump );
 
 sub debug_session_and_user {
     my ( $self, $c ) = @_;
@@ -33,7 +40,7 @@ sub auto : Private {
     }
 
     # no valid login found so redirect.
-    $c->response->redirect( $c->config->{authentication}->{auth_url} );
+    $c->response->redirect( $self->auth_url );
 
     # tell Catalyst to abort processing.
     return 0;

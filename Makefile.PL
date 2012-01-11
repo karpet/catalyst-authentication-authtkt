@@ -20,8 +20,7 @@ WriteMakefile(
         'Catalyst::Plugin::Session'        => 0,
         'Catalyst::Plugin::Session::Store::Dummy' => 0,
         'Catalyst::Plugin::Session::State::Cookie' => 0,
-        'HTTP::Request::AsCGI' => 0,
-
+        'Moose' => 0,
 
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
