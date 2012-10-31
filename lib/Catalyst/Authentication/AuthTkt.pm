@@ -3,7 +3,7 @@ package Catalyst::Authentication::AuthTkt;
 use warnings;
 use strict;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 =head1 NAME
 
@@ -75,7 +75,7 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
      return 1 if $c->authenticate;
         
      # no valid login found so redirect.
-     $c->response->redirect( $self->auth_url} );
+     $c->response->redirect( $self->auth_url );
         
      # tell Catalyst to abort processing.
      return 0;
