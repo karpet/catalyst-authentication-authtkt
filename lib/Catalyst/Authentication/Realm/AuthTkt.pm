@@ -4,7 +4,7 @@ use warnings;
 use base qw( Catalyst::Authentication::Realm );
 use Carp;
 
-our $VERSION = '0.13';
+our $VERSION = '0.13_01';
 
 =head1 NAME
 

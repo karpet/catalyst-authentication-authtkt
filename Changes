@@ -45,3 +45,6 @@ Revision history for Catalyst-Authentication-AuthTkt
 
 0.13    31 Oct 2012
         * pod fix in SYNOPSIS
+
+0.14    xxx
+        * document use_req_address and ignore_ip
