@@ -29,6 +29,10 @@ Catalyst::Authentication::AuthTkt - shim for Apache::AuthTkt
                 class AuthTkt
                 
                 cookie_name auth_tkt
+
+                # if ignore_ip is on in your login script, set this
+                ignore_ip 1
+                use_req_address 0.0.0.0
                 
                 # either the path to your Apache .conf file
                 #conf path/to/httpd.conf
