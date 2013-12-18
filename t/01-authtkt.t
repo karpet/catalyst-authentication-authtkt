@@ -15,14 +15,15 @@ my $class = 'MyApp';
 # based on Catalyst::Test local_request() but
 # hack in session cookie support.
 my $scookie;
+
 sub my_request {
     my $uri = shift or die "uri required";
     my $request = Catalyst::Utils::request($uri);
     if ($scookie) {
-        $request->header('Cookie', $scookie);
+        $request->header( 'Cookie', $scookie );
     }
     my $response = request($request);
-    if (!$scookie && $response->header('Set-Cookie')) {
+    if ( !$scookie && $response->header('Set-Cookie') ) {
         $scookie = $response->header('Set-Cookie');
         $scookie =~ s/;.*//;
     }
@@ -35,8 +36,8 @@ ok( my %config = $conf->getall, "parse config file" );
 
 #dump \%config;
 
-my $store       = $config{'Plugin::Authentication'}->{realms}->{authtkt}->{store};
-my $secret      = $store->{secret};
+my $store  = $config{'Plugin::Authentication'}->{realms}->{authtkt}->{store};
+my $secret = $store->{secret};
 my $cookie_name = $store->{cookie_name};
 
 my $res;
@@ -59,8 +60,7 @@ ok( my $auth_ticket = $AAT->ticket(
     "new auth_tkt"
 );
 
-ok( $res = my_request( "/?$cookie_name=$auth_ticket" ),
-    "get / with auth_tkt" );
+ok( $res = my_request("/?$cookie_name=$auth_ticket"), "get / with auth_tkt" );
 is( $res->content,
     'Logged in as user catalyst-tester with roles ("group1", "group2")',
     "logged in" );
@@ -75,4 +75,26 @@ is( $res->headers->{location},
 );
 
 #dump $res;
+
+# test renewal
+ok( my $stale_tkt = $AAT->ticket(
+        uid     => 'catalyst-tester',
+        ts      => time() - 7201,      # in the past beyond the timeout period
+        ip_addr => '127.0.0.1',
+    ),
+    "create stale ticket"
+);
+ok( $res = my_request("/?$cookie_name=$stale_tkt"), "get / with stale_tkt" );
+
+#diag( dump $res );
+is( $res->headers->{status}, 302, "stale ticket redirects" );
+ok( my $used_tkt = $AAT->ticket(
+        uid     => 'catalyst-tester',
+        ts      => time() - 7000,       # in the past but before timeout
+        ip_addr => '127.0.0.1',
+    ),
+    "create used ticket"
+);
+ok( $res = my_request("/?$cookie_name=$used_tkt"), "get / with used_tkt" );
+diag( dump $res );
 
