@@ -1,9 +1,10 @@
 Revision history for Catalyst-Authentication-AuthTkt
 
-0.15 xxx
+0.15 18 Dec 2013
  - move src repos to github
  - switch to Module::Install
- - 
+ - Moose-ify
+ - fix renew_ticket bug 
 
 0.14 19 Aug 2013
  - document use_req_address and ignore_ip
