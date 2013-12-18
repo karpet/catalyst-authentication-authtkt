@@ -1,14 +1,15 @@
 package Catalyst::Authentication::Store::AuthTkt;
-
-use warnings;
-use strict;
-use base qw( Class::Accessor::Fast );
+use Moose;
+use namespace::autoclean;
 use Apache::AuthTkt 0.08;
 use Carp;
 use Data::Dump qw( dump );
 use Catalyst::Authentication::User::AuthTkt;
 
-__PACKAGE__->mk_accessors(qw( cookie_name aat config debug ));
+has 'cookie_name' => ( is => 'rw', isa => 'Str' );
+has 'aat'         => ( is => 'rw', isa => 'Apache::AuthTkt', required => 1, );
+has 'config'      => ( is => 'rw', isa => 'HashRef', required => 1, );
+has 'debug'       => ( is => 'rw', isa => 'Int', );
 
 our $VERSION = '0.15';
 
@@ -34,21 +35,24 @@ and optionally, to set the C<timeout> and C<timeout_refresh> values.
 
 sub new {
     my ( $class, $config, $app ) = @_;
-    my $self = $class->SUPER::new(
-        { cookie_name => $config->{cookie_name} || 'auth_tkt' } );
+    my $self = bless( { cookie_name => $config->{cookie_name} || 'auth_tkt' },
+        $class );
+
+    # init AuthTkt
     my @aat_args = ();
-    for my $param (qw( ignore_ip cookie_name domain timeout timeout_refresh )) {
+    for my $param (qw( ignore_ip cookie_name domain timeout timeout_refresh ))
+    {
         if ( exists $config->{$param} ) {
             push( @aat_args, $param => $config->{$param} );
         }
     }
     if ( $config->{conf} ) {
-        $self->{aat}
-            = Apache::AuthTkt->new( conf => $config->{conf}, @aat_args );
+        $self->aat(
+            Apache::AuthTkt->new( conf => $config->{conf}, @aat_args ) );
     }
     elsif ( $config->{secret} ) {
-        $self->{aat}
-            = Apache::AuthTkt->new( secret => $config->{secret}, @aat_args );
+        $self->aat(
+            Apache::AuthTkt->new( secret => $config->{secret}, @aat_args ) );
     }
     else {
         croak "conf or secret configuration required";
@@ -71,7 +75,10 @@ sub new {
     }
 
     $self->config($config);    # cache for later
-    $self->debug( $config->{debug} || $ENV{PERL_DEBUG} || 0 );
+    $self->debug( $config->{debug}
+            || $ENV{CATALYST_DEBUG}
+            || $ENV{PERL_DEBUG}
+            || 0 );
 
     return $self;
 }
