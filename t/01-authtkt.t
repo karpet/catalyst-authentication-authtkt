@@ -1,6 +1,6 @@
 #!/usr/bin/env/perl
 use strict;
-use Test::More tests => 12;
+use Test::More tests => 20;
 
 use lib 't/MyApp/lib';
 use Catalyst::Test 'MyApp';
@@ -9,6 +9,7 @@ use Data::Dump qw( dump );
 use Config::General;
 use Apache::AuthTkt;
 use HTTP::Request::AsCGI;
+use HTTP::Cookies;
 
 my $class = 'MyApp';
 
@@ -28,6 +29,25 @@ sub my_request {
         $scookie =~ s/;.*//;
     }
     return $response;
+}
+
+# cribbed from Test::HTTP::Response
+sub extract_cookies {
+    my $response = shift;
+    my %cookies;
+    my $cookie_jar = HTTP::Cookies->new();
+    $cookie_jar->extract_cookies($response);
+    $cookie_jar->scan(
+        sub {
+            my %cookie = ();
+            @cookie{
+                qw(version key value path domain port path domain port path_spec secure expires discard hash)
+            } = @_;
+            $cookies{ $cookie{key} } = \%cookie;
+        }
+    );
+
+    return \%cookies;
 }
 
 ok( my $conf = Config::General->new("t/MyApp/myapp.conf"),
@@ -96,5 +116,10 @@ ok( my $used_tkt = $AAT->ticket(
     "create used ticket"
 );
 ok( $res = my_request("/?$cookie_name=$used_tkt"), "get / with used_tkt" );
-diag( dump $res );
 
+#diag( dump $res );
+ok( my $cookies = extract_cookies($res), "extract cookies" );
+
+#diag( dump $cookies );
+ok( $cookies->{$cookie_name}, "$cookie_name in response" );
+isnt( $used_tkt, $cookies->{$cookie_name}, "$cookie_name value changed" );

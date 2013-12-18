@@ -251,19 +251,26 @@ sub renew_ticket {
         # extend the expiration time of the cookie
         my $authtkt         = $self->aat;
         my $existing_cookie = $c->req->cookies->{ $self->cookie_name };
-        my $new_ticket      = $authtkt->ticket(
+        if ( $self->debug ) {
+            $c->log->debug( "existing_cookie: " . dump($existing_cookie) );
+            $c->log->debug( "authtkt: " . dump($authtkt) );
+        }
+        my $new_ticket = $authtkt->ticket(
             uid     => $ticket->{uid},
             ip_addr => $c->request->address,
             data    => $ticket->{data},
             tokens  => $ticket->{tokens},
         );
+        my $domain = $authtkt->domain;
+        my $path   = '/';
+        if ($existing_cookie) {
+            $domain = $existing_cookie->domain if $existing_cookie->domain;
+            $path   = $existing_cookie->path   if $existing_cookie->path;
+        }
         $c->response->cookies->{ $self->cookie_name } = {
-            value => $new_ticket,
-            path  => defined $existing_cookie ? $existing_cookie->path
-            : '/',
-            domain => defined $existing_cookie->domain
-            ? $existing_cookie->domain
-            : $authtkt->domain
+            value  => $new_ticket,
+            path   => $path,
+            domain => $domain,
         };
         $c->log->debug( 'AuthTkt: new cookie: '
                 . dump( $c->response->cookies->{ $self->cookie_name } ) )
