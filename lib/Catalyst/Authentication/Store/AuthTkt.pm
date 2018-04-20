@@ -257,7 +257,7 @@ sub renew_ticket {
         }
         my $new_ticket = $authtkt->ticket(
             uid     => $ticket->{uid},
-            ip_addr => $c->request->address,
+            ip_addr => $self->config->{use_req_address} || $c->request->address,
             data    => $ticket->{data},
             tokens  => $ticket->{tokens},
         );
