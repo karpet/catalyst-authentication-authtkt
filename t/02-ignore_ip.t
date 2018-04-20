@@ -2,6 +2,10 @@
 use strict;
 use Test::More tests => 21;
 
+BEGIN {
+    $ENV{MYAPP_CONFIG} = 't/MyApp/myapp_ignore_ip.conf';
+}
+
 use lib 't/MyApp/lib';
 use Catalyst::Test 'MyApp';
 use HTTP::Request::Common;
@@ -73,7 +77,7 @@ is( $res->headers->{location},
 ok( my $AAT = Apache::AuthTkt->new( secret => $secret, ), "new AAT" );
 ok( my $auth_ticket = $AAT->ticket(
         uid     => 'catalyst-tester',
-        ip_addr => '127.0.0.1',
+        ip_addr => '0.0.0.0',
         tokens  => 'group1,group2',
         data    => 'foo bar baz'
     ),
@@ -100,7 +104,7 @@ is( $res->headers->{location},
 ok( my $stale_tkt = $AAT->ticket(
         uid     => 'catalyst-tester',
         ts      => time() - 7201,      # in the past beyond the timeout period
-        ip_addr => '127.0.0.1',
+        ip_addr => '0.0.0.0',
     ),
     "create stale ticket"
 );
@@ -111,7 +115,7 @@ is( $res->headers->{status}, 302, "stale ticket redirects" );
 ok( my $used_tkt = $AAT->ticket(
         uid     => 'catalyst-tester',
         ts      => time() - 7000,       # in the past but before timeout
-        ip_addr => '127.0.0.1',
+        ip_addr => '0.0.0.0',
     ),
     "create used ticket"
 );
