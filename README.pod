@@ -1,6 +1,14 @@
-Catalyst-Authentication-AuthTkt
+=head1 Catalyst-Authentication-AuthTkt
 
-INSTALLATION
+=begin html
+
+<p>
+  <img src="https://travis-ci.org/karpet/catalyst-authentication-authtkt.png?branch=master" alt="Travis CI build status">
+</p>
+
+=end html
+
+=head2 INSTALLATION
 
 To install this module, run the following commands:
 
@@ -10,7 +18,7 @@ To install this module, run the following commands:
     make install
 
 
-SUPPORT AND DOCUMENTATION
+=head2 SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module with the perldoc command.
 
@@ -30,7 +38,7 @@ You can also look for information at:
     CPAN Ratings:
         http://cpanratings.perl.org/d/Catalyst-Authentication-AuthTkt
 
-COPYRIGHT AND LICENCE
+=head2 COPYRIGHT AND LICENCE
 
 Copyright (C) 2008 by the Regents of the University of Minnesota.
 
