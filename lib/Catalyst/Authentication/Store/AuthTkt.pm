@@ -11,7 +11,7 @@ has 'aat'         => ( is => 'rw', isa => 'Apache::AuthTkt', required => 1, );
 has 'config'      => ( is => 'rw', isa => 'HashRef', required => 1, );
 has 'debug'       => ( is => 'rw', isa => 'Int', );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 
