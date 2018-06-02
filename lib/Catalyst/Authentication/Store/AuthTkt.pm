@@ -40,7 +40,7 @@ sub new {
 
     # init AuthTkt
     my @aat_args = ();
-    for my $param (qw( ignore_ip cookie_name domain timeout timeout_refresh ))
+    for my $param (qw( ignore_ip cookie_name domain timeout timeout_refresh digest_type ))
     {
         if ( exists $config->{$param} ) {
             push( @aat_args, $param => $config->{$param} );
