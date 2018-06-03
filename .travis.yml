@@ -6,4 +6,4 @@ perl:
   - "5.22"
   - "5.20"
 install:
-  - cpanm --no-skip-satisfied Apache::AuthTkt Catalyst Catalyst::Plugin::Authentication Config::General Catalyst::Plugin::ConfigLoader Catalyst::Plugin::Session Catalyst::Plugin::Session::State::Cookie Catalyst::Plugin::Session::Store::Dummy Catalyst::Plugin::Static::Simple || { cat ~/.cpanm/build.log ; false ; }
+  - cpanm --no-skip-satisfied Apache::AuthTkt Catalyst Catalyst::Plugin::Authentication Config::General Catalyst::Plugin::ConfigLoader Catalyst::Plugin::Session Catalyst::Plugin::Session::State::Cookie Catalyst::Plugin::Session::Store::Dummy Catalyst::Plugin::Static::Simple HTTP::Request::AsCGI || { cat ~/.cpanm/build.log ; false ; }
